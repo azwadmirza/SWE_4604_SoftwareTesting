@@ -1,0 +1,308 @@
+{
+	"info": {
+		"_postman_id": "9c683611-34b4-4c26-ba5c-715de608b677",
+		"name": "200042121_L5_testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26123941"
+	},
+	"item": [
+		{
+			"name": "Task1: CheckStatus",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Status 200\",()=>{\r",
+							"    pm.response.to.have.status(200)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/status",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task2: FictionalTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check for fiction\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    var jsonData = pm.response.json();\r",
+							"    jsonData.forEach(function(book) {\r",
+							"        pm.expect(book).to.have.property('type');\r",
+							"        pm.expect(book.type).to.eql('fiction');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/books?type=fiction",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "fiction"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task 3: Set First Available Book ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Set First Available Book ID\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"AvailableBookId\",jsonData[0].id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/books?available=true",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "available",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task4: Check the value of the field  “name” containing the word “Russian” and “fiction” in the “type” field for the first available book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check the value of the field  “name” containing the word “Russian” and “fiction” in the “type” field for the first available book\", function () {\r",
+							"    function _isContains(json, keyname, value) {\r",
+							"        return Object.keys(json).some(key => {\r",
+							"            return typeof json[key] === 'Russian' ?\r",
+							"                _isContains(json[key], keyname, value) : key === keyname && json[key] === value;\r",
+							"        });\r",
+							"    }\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    let hasRussian=false;\r",
+							"    jsonData.forEach(function (book) {\r",
+							"        pm.expect(book.type).to.eql('fiction');\r",
+							"        if(book.name.includes(\"Russian\")){\r",
+							"            hasRussian=true;\r",
+							"        }\r",
+							"    });\r",
+							"    pm.expect(hasRussian).to.eql(true);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/books?type=fiction&name=Russian",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "fiction"
+						},
+						{
+							"key": "name",
+							"value": "Russian"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task5: Set New Order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const url = pm.collectionVariables.get('url');\r",
+							"let customer = pm.collectionVariables.get('customer');\r",
+							"min=100000000\r",
+							"max=9999999999\r",
+							"let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;\r",
+							"while(randomNumber==customer){\r",
+							"    randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;\r",
+							"}\r",
+							"pm.collectionVariables.set('customer',randomNumber);\r",
+							"customer=randomNumber;\r",
+							"\r",
+							"const requestBody = {\r",
+							"    clientName: `${customer}`,\r",
+							"    clientEmail: `${customer}@example.com`\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest({\r",
+							"    url: `${url}/api-clients`,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify(requestBody)\r",
+							"    }\r",
+							"}, (error, response) => {\r",
+							"    if (error) {\r",
+							"        console.error(error);\r",
+							"        return;\r",
+							"    }\r",
+							"    const responseBody = response.json();\r",
+							"    const accessToken = responseBody.accessToken;\r",
+							"    pm.collectionVariables.set('accessToken', `${accessToken}`);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Set New Order\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.haveOwnProperty('orderId');\r",
+							"    pm.globals.set('orderId',jsonData.orderId);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookId\":\"{{AvailableBookId}}\",\r\n    \"customerName\": \"{{customer}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/orders",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://simple-books-api.glitch.me",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "customer",
+			"value": "mirzaazwad",
+			"type": "string"
+		}
+	]
+}
