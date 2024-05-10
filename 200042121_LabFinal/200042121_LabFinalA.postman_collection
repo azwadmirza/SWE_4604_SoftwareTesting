@@ -1,0 +1,641 @@
+{
+	"info": {
+		"_postman_id": "2d5f85db-503b-4aed-b32f-f097d3380548",
+		"name": "LabFinalA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26123941"
+	},
+	"item": [
+		{
+			"name": "User1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"mirza_121@user.com\",\r\n    \"password\":\"Mirza_200042121\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/users/register",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User 1\",()=>{\r",
+							"    pm.response.to.have.status(201);\r",
+							"    var jsonData=pm.response.json();\r",
+							"    pm.expect(jsonData).to.haveOwnProperty('id');\r",
+							"    pm.collectionVariables.set(\"user1\",jsonData.id);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\":\"mirza\",\r\n    \"last_name\":\"azwad\",\r\n    \"email\":\"mirza_121@user.com\",\r\n    \"password\":\"Mirza_200042121\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/users/register",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User 1\",()=>{\r",
+							"    pm.response.to.have.status(201);\r",
+							"    var jsonData=pm.response.json();\r",
+							"    pm.expect(jsonData).to.haveOwnProperty('id');\r",
+							"    pm.collectionVariables.set(\"user1\",jsonData.id);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\":\"mirza\",\r\n    \"last_name\":\"azwad\",\r\n    \"email\":\"mirzaazwad@doe.com\",\r\n    \"phone\" :  \"01991681338\",\r\n    \"dob\" :  \"1970-01-01\" ,\r\n    \"password\" : \"Super-Secret-123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/users/register",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User 1 Login\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData=pm.response.json();\r",
+							"    pm.globals.set(\"access token\",jsonData.access_token);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"Super-Secret-123\",\r\n  \"email\": \"mirzaazwad@doe.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/users/login",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test User Update\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"first_name\": \"Mirza\",\r\n  \"last_name\": \"Azwad\",\r\n  \"address\": \"Asad Avenue\",\r\n  \"city\": \"Mohammadpur\",\r\n  \"state\": \"Dhaka\",\r\n  \"country\": \"Bangladesh\",\r\n  \"postcode\": \"1207\",\r\n  \"phone\": \"0987654321\",\r\n  \"dob\": \"1970-01-02\",\r\n  \"password\": \"Super-Secret-123\",\r\n  \"email\": \"mirzaazwad@doe.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/users/{{user1}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"users",
+						"{{user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SafetySearch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Expect all the products to have safety\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData=pm.response.json().data;\r",
+							"    let allsafety=true;\r",
+							"    jsonData.forEach((data)=>{\r",
+							"        if(!data.name.toLowerCase().includes('safety')){\r",
+							"            allsafety=false;\r",
+							"        }\r",
+							"    })\r",
+							"    pm.collectionVariables.set('Safety',jsonData[0].id);\r",
+							"    pm.expect(allsafety).to.eql(true);\r",
+							"    \r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/products/search?q=safety",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"products",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "safety"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NutsSearch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Search for nuts\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData=pm.response.json().data;\r",
+							"    pm.expect(jsonData.length).to.eql(2);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/products/search?q=nuts",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"products",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "nuts"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CartAddition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Cart ID\",()=>{\r",
+							"    pm.response.to.have.status(201);\r",
+							"    var jsonData=pm.response.json();\r",
+							"    pm.expect(jsonData).to.haveOwnProperty('id');\r",
+							"    pm.collectionVariables.set(\"cartID\",jsonData.id);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/carts",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SafetyCartTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Items Added or Updated\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData=pm.response.json();\r",
+							"    pm.expect(jsonData.result).to.eql(\"item added or updated\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_id\":\"{{Safety}}\",\r\n    \"quantity\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/carts/{{cartID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"carts",
+						"{{cartID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PriceyCartTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Items Added or Updated\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData=pm.response.json();\r",
+							"    pm.expect(jsonData.result).to.eql(\"item added or updated\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_id\":\"{{Pricey}}\",\r\n    \"quantity\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/carts/{{cartID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"carts",
+						"{{cartID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Products Between Range 50 to 100\",()=>{\r",
+							"    var jsonData=pm.response.json().data;\r",
+							"    pm.collectionVariables.set(\"Pricey\",jsonData[0].id);\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/products?between=price,50,100",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "between",
+							"value": "price,50,100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SafetyRelated",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Expect all the products to have safety\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData=pm.response.json();\r",
+							"    let allsafety=true;\r",
+							"    jsonData.forEach((data)=>{\r",
+							"        if(!data.category.name.toLowerCase().includes('safety')){\r",
+							"            allsafety=false;\r",
+							"        }\r",
+							"    })\r",
+							"    pm.expect(allsafety).to.eql(true);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/products/{{Safety}}/related",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"products",
+						"{{Safety}}",
+						"related"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCartData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let SafetyID=pm.collectionVariables.get(\"Safety\");\r",
+							"let PriceyID=pm.collectionVariables.get(\"Pricey\");\r",
+							"pm.test(\"Cart Items Check\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData=pm.response.json().cart_items;\r",
+							"    var safetyFound=jsonData.filter((data)=>data.product_id===SafetyID);\r",
+							"    var priceyFound=jsonData.filter((data)=>data.product_id===PriceyID);\r",
+							"    pm.expect(safetyFound.length).to.be.greaterThan(0);\r",
+							"    pm.expect(priceyFound.length).to.be.greaterThan(0);\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.practicesoftwaretesting.com/carts/{{cartID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"practicesoftwaretesting",
+						"com"
+					],
+					"path": [
+						"carts",
+						"{{cartID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user1",
+			"value": ""
+		},
+		{
+			"key": "user2",
+			"value": ""
+		},
+		{
+			"key": "cartID",
+			"value": ""
+		},
+		{
+			"key": "Safety",
+			"value": ""
+		},
+		{
+			"key": "Pricey",
+			"value": ""
+		}
+	]
+}
